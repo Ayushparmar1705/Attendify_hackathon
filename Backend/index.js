@@ -153,7 +153,7 @@ app.put("/admin/editteacher/:id", (req, res) => {
 app.post("/admin/addsubject", (req, res) => {
     const data = req.body;
     const sql = "INSERT INTO subjects(admin_id , subject_name) VALUES(?,?)";
-    sql.query(sql, [data.class_name , data.class_name], (err, result) => {
+    sql.query(sql, [data.class_name, data.class_name], (err, result) => {
         if (err) {
             return res.status(500).send({ message: err });
         }
@@ -163,6 +163,46 @@ app.post("/admin/addsubject", (req, res) => {
     })
 })
 
+app.post("/admin/addstudent", (req, res) => {
+    const data = req.body;
+    const sql = "INSERT INTO Students(admin_id , class_id , name , phone , date_of_birth) VALUES(?,?,?,?,?)";
+    sql.query(sql, [data.admin_id, data.class_id, data.name, data.phone, data.date_of_birth], (err, result) => {
+        if (err) {
+            return res.status(500).send({ message: err });
+        }
+        else {
+            return res.status(200).send({ message: result });
+        }
+    })
+})
+
+
+app.get("/admin/displaystudent", (req, res) => {
+    const data = req.params;
+    const sql = "SELECT * FROM Students WHERE admin_id = ?";
+    sql.query(sql, [data.admin_id], (err, result) => {
+        if (err) {
+            return res.status(500).send({ message: err });
+        }
+        else {
+            return res.status(200).send({ message: result });
+        }
+    })
+})
+
+
+app.put("/admin/editstudent", (req, res) => {
+    const data = req.body;
+    const sql = "UPDATE Students SET name = ? , phone = ? , date_of_birth WHERE admin_id = ?";
+    sql.query(sql, [data.admin_id], (err, result) => {
+        if (err) {
+            return res.status(500).send({ message: err });
+        }
+        else {
+            return res.status(200).send({ message: result });
+        }
+    })
+})
 
 // listen the server to 5000  
 app.listen(5000);
