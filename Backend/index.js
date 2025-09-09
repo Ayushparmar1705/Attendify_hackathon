@@ -152,8 +152,8 @@ app.put("/admin/editteacher/:id", (req, res) => {
 
 app.post("/admin/addsubject", (req, res) => {
     const data = req.body;
-    const sql = "INSERT INTO subjects(subject_name) VALUES(?)";
-    sql.query(sql, [data.class_name], (err, result) => {
+    const sql = "INSERT INTO subjects(admin_id , subject_name) VALUES(?,?)";
+    sql.query(sql, [data.class_name , data.class_name], (err, result) => {
         if (err) {
             return res.status(500).send({ message: err });
         }
